@@ -20,6 +20,16 @@ model User {
   password  String
   createdAt DateTime @default(now())
   orders    Order[]
+  tokens    Token[]
+}
+
+model Token {
+  id        Int      @id @unique
+  token     String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
 }
 
 model Order {
