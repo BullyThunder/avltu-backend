@@ -8,7 +8,7 @@ export class TokenService {
     const token = uuidv4();
     const expiresAt = new Date();
     expiresAt.setHours(expiresAt.getHours() + 24);
-    await this.prisma.token.create({
+    return await this.prisma.token.create({
       data: {
         userId,
         expiresAt,

@@ -4,7 +4,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { RegistrDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
-import { createVerificationToken } from '../common/utils/generate_token';
+import { TokenService } from '../common/utils/generate_token';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -12,6 +12,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private tokenService: TokenService,
   ) {}
   async registr(dto: RegistrDto) {
     const passwordHash = await bcrypt.hash(dto.password, 10);
@@ -23,6 +24,8 @@ export class AuthService {
           name: dto.name,
         },
       });
+      const userID = newUserCreate.id;
+      await this.tokenService.createVerificationToken(userID);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: _password, ...userWithoutPassword } = newUserCreate;
 
