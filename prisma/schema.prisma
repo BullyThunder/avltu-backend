@@ -14,19 +14,20 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  password  String
-  createdAt DateTime @default(now())
-  orders    Order[]
-  tokens    Token[]
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  name        String
+  password    String
+  createdAt   DateTime @default(now())
+  orders      Order[]
+  tokens      Token[]
+  isActivated Boolean  @default(false)
 }
 
 model Token {
-  id        Int      @id @unique
-  token     String
-  userId    Int
+  id        Int      @id @unique @default(autoincrement())
+  token     String   @unique
+  userId    Int      @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   expiresAt DateTime

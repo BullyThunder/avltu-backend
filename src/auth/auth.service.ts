@@ -4,6 +4,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { RegistrDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
+import { createVerificationToken } from '../common/utils/generate_token';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -24,6 +25,7 @@ export class AuthService {
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: _password, ...userWithoutPassword } = newUserCreate;
+
       return userWithoutPassword;
     } catch {
       throw new ConflictException('Email is already taken');
@@ -41,7 +43,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
     const payload = { email: findUser.email, sub: findUser.id };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     return {
       access_token: await this.jwtService.signAsync(payload),
       user: {
