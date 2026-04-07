@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UnauthorizedException, ConflictException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { BadRequestException } from '@nestjs/common';
 import { RegistrDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
@@ -54,5 +55,17 @@ export class AuthService {
         id: findUser.id,
       },
     };
+  }
+  async activate(activationToken: string) {
+    const token_data = await this.prisma.token.findUnique({
+      where: { token: activationToken },
+      include: { user: true },
+    });
+    if (!token_data) {
+      throw new BadRequestException('Incorrect activation link');
+    }
+    await this.prisma.user.update({
+      where: {},
+    });
   }
 }
