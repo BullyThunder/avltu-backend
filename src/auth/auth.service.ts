@@ -64,8 +64,15 @@ export class AuthService {
     if (!token_data) {
       throw new BadRequestException('Incorrect activation link');
     }
+    if (!token_data.user) {
+      throw new BadRequestException('User not found');
+    }
     await this.prisma.user.update({
-      where: {},
+      where: { id: token_data.userId },
+      data: { isActivated: true },
+    });
+    await this.prisma.token.delete({
+      where: { id: token_data.id },
     });
   }
 }
