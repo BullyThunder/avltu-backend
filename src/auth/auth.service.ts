@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { TokenService } from '../common/utils/generate_token';
 import * as bcrypt from 'bcrypt';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private tokenService: TokenService,
+    private mailService: MailService,
   ) {}
   async registr(dto: RegistrDto) {
     const passwordHash = await bcrypt.hash(dto.password, 10);
@@ -25,8 +27,13 @@ export class AuthService {
           name: dto.name,
         },
       });
-      const userID = newUserCreate.id;
-      await this.tokenService.createVerificationToken(userID);
+      const verification = await this.tokenService.createVerificationToken(
+        newUserCreate.id,
+      );
+      await this.mailService.sendActivationMail(
+        newUserCreate.email,
+        verification.token,
+      );
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: _password, ...userWithoutPassword } = newUserCreate;
 

@@ -10,7 +10,7 @@ export class MailService {
       subject: 'Activation account',
       html: `
         <div>
-          <h1>Для активации перейдите по ссылке:</h1>
+          <h1>Для активації перейдіть по посиланню:</h1>
           <a href="${url}">${url}</a>
         </div>
       `,
