@@ -9,6 +9,7 @@ import { MailModule } from 'src/mail/mail.module';
 @Module({
   imports: [
     PassportModule,
+    MailModule,
     JwtModule.register({
       secret:
         '74dcdd86743ab01aa8c9c1cfdb5dcb2ababf6514aa6894686c0091781b8de8af',
@@ -19,6 +20,6 @@ import { MailModule } from 'src/mail/mail.module';
   ],
   controllers: [AuthController],
   providers: [AuthService, PrismaService],
-  exports: [AuthService, MailModule],
+  exports: [AuthService],
 })
 export class AuthModule {}

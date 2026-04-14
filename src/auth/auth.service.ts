@@ -38,8 +38,12 @@ export class AuthService {
       const { password: _password, ...userWithoutPassword } = newUserCreate;
 
       return userWithoutPassword;
-    } catch {
-      throw new ConflictException('Email is already taken');
+    } catch (error) {
+      // Это выведет реальную ошибку в логи Render
+      console.error('Registration error:', error);
+
+      // Оставляем это пока, но теперь мы будем знать правду в логах
+      throw new ConflictException('Registration failed or Email taken');
     }
   }
   async login(dto: LoginDto) {
