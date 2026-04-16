@@ -39,11 +39,23 @@ export class AuthService {
 
       return userWithoutPassword;
     } catch (error) {
-      // Это выведет реальную ошибку в логи Render
       console.error('Registration error:', error);
 
-      // Оставляем это пока, но теперь мы будем знать правду в логах
-      throw new ConflictException('Registration failed or Email taken');
+      // Проверяем, что error — это объект, у которого могут быть свойства
+      if (typeof error === 'object' && error !== null) {
+        const err = error as Record<string, any>; // Говорим TS: "считай это объектом с любыми ключами"
+
+        if (err.code === 'P2002') {
+          throw new ConflictException('Email already taken');
+        }
+
+        throw new BadRequestException(
+          err.message || 'Unknown registration error',
+        );
+      }
+
+      // Если вдруг ошибка — это просто строка или что-то странное
+      throw new BadRequestException('Unknown registration error');
     }
   }
   async login(dto: LoginDto) {
