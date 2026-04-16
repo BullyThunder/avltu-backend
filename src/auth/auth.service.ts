@@ -5,7 +5,7 @@ import { BadRequestException } from '@nestjs/common';
 import { RegistrDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
-import { TokenService } from '../common/utils/generate_token';
+import { TokenService } from 'src/token/token.service';
 import * as bcrypt from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
 
