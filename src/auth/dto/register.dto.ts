@@ -6,5 +6,5 @@ export class RegistrDto extends baseAuthDto {
   @IsOptional()
   name!: string;
   @IsString()
-  tokens!: string;
+  token!: string;
 }
