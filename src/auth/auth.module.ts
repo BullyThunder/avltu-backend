@@ -5,13 +5,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { PrismaService } from '../../prisma/prisma.service';
 import { MailModule } from 'src/mail/mail.module';
-import { TokenService } from 'src/token/token.service';
+import { TokenModule } from 'src/token/token.module';
 
 @Module({
   imports: [
     PassportModule,
     MailModule,
-    TokenService,
+    TokenModule,
     JwtModule.register({
       secret:
         '74dcdd86743ab01aa8c9c1cfdb5dcb2ababf6514aa6894686c0091781b8de8af',
