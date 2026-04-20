@@ -17,6 +17,17 @@ export class AuthService {
     private tokenService: TokenService,
     private mailService: MailService,
   ) {}
+  async getAllUsers() {
+    return await this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        isActivated: true,
+        createdAt: true,
+      },
+    });
+  }
   async registr(dto: RegistrDto) {
     const passwordHash = await bcrypt.hash(dto.password, 10);
     try {

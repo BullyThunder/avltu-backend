@@ -8,7 +8,10 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
+  @Get('users')
+  async getAllUsers() {
+    return await this.authService.getAllUsers();
+  }
   @Get('activate/:token')
   async activate(@Param('token') token: string) {
     return await this.authService.activate(token);
