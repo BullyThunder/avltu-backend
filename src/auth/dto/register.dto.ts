@@ -4,5 +4,5 @@ import { baseAuthDto } from './base.dto';
 export class RegistrDto extends baseAuthDto {
   @IsString()
   @IsOptional()
-  name!: string;
+  fullname!: string;
 }
