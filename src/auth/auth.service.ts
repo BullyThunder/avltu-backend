@@ -22,7 +22,7 @@ export class AuthService {
       select: {
         id: true,
         email: true,
-        name: true,
+        fullname: true,
         isActivated: true,
         createdAt: true,
       },
@@ -35,7 +35,7 @@ export class AuthService {
         data: {
           email: dto.email,
           password: passwordHash,
-          name: dto.name,
+          fullname: dto.fullname,
         },
       });
       const verification = await this.tokenService.createVerificationToken(
